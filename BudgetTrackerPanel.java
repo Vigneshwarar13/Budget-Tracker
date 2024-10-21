@@ -1,15 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.net.URI;
 
 public class BudgetTrackerPanel extends JPanel {
     private List<Income> incomes;
     private List<Expense> expenses;
     private JTextField incomeField, sourceField, expenseField, categoryField;
     private JTextArea summaryArea;
+    private JLabel linkLabel;
 
     public BudgetTrackerPanel() {
         // Initialize the lists
@@ -83,6 +84,28 @@ public class BudgetTrackerPanel extends JPanel {
         JButton summaryButton = new JButton("View Summary");
         summaryButton.addActionListener(new ViewSummaryListener());
         add(summaryButton, gbc);
+
+        // Adding a clickable link
+        gbc.gridy = 5;
+        gbc.gridwidth = 4;
+        linkLabel = new JLabel("<html><a href='https://vigneshwarar-portfolio.netlify.app/'>Created By Me</a></html>");
+        linkLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));  // Set the cursor to hand on hover
+        linkLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                openWebPage("https://vigneshwarar-portfolio.netlify.app/");
+            }
+        });
+        add(linkLabel, gbc);
+    }
+
+    // Method to open a web page in the default browser
+    private void openWebPage(String urlString) {
+        try {
+            Desktop.getDesktop().browse(new URI(urlString));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Action listener for adding income
